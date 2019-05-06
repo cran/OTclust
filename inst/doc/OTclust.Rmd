@@ -1,0 +1,164 @@
+---
+title: "Quick tour of OTclust"
+author: "Lixiang Zhang and Beomseok Seo"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r echo=F, results="asis"}
+cat("
+<style>
+samp {
+   color: red;
+   background-color: #EEEEEE;
+}
+</style>
+")
+
+cat("
+<style>
+samp2 {
+   color: black;
+   font-style: italic;
+   background-color: #EEEEEE;
+}
+</style>
+")
+```
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## 1. Introduction
+
+<samp>OTclust</samp> is an R package for computing a mean partition of an ensemble of clustering results by optimal transport alignment (OTA) and for assessing uncertainty at the levels of both partition and individual clusters. To measure uncertainty,  set relationships between clusters in multiple clustering results are revealed. Functions are provided to compute the Covering Point Set (CPS), Cluster Alignment and Points based (CAP) separability, and Wasserstein distance between partitions.
+
+## 2. Mean partition as an ensemble clustering.
+
+```{r, echo=T, eval=T}
+library(OTclust)
+data(sim1)
+```
+
+Here, we illustrate the usage of <samp>OTclust</samp> for an ensemble clustering based on a simulated toy example, <samp2>sim1</samp2>, which has 5000 samples, 2 features, and 4 clusters. <samp2>ensemble( )</samp2> generates <samp2>nbs</samp2> number of perturbed partitions based on a specified clustering method. For the clustering method, user specified functions or example methods included in package (<samp2>"kmeans", "Mclust", "hclust", "dbscan", "PCAreduce", "HMM-VB"</samp2>) can be used.
+
+```{r, echo=F, eval=F, results="hide", cache=F}
+C=4
+load('ens.data.rda')
+load('OTA.rda')
+```
+
+
+```{r,  echo=T, eval=T, results="hide", cache=T}
+# the number of clusters.
+C = 4
+# generate an ensemble of perturbed partitions.
+# if perturb_method is 1 then perturbed by bootstrap resampling, it it is 0, then perturbed by adding Gaussian noise.
+ens.data = ensemble(sim1$X, nbs=100, clust_param=C, clustering="kmeans", perturb_method=1)
+```
+
+To find a consensus partition, the function <samp2>otclust( )</samp2> searches mean partition by optimal transport alignment (OTA) between the ensemble of partitions. As a return, <samp2>otclust( )</samp2> generates mean partition and its partition-wise and cluster-wise uncertainty statistics. For the detail of return values, refer to help of <samp2>otclust( )</samp2>.
+
+```{r,  echo=T, eval=T, results="hide", cache=T}
+# find mean partition and uncertainty statistics.
+ota = otclust(ens.data)
+```
+
+```{r, echo=T, cache=T}
+# calculate baseline method for comparison.
+kcl = kmeans(sim1$X,C)
+
+# align clustering results for convenience of comparison.
+compar = align(cbind(sim1$z,kcl$cluster,ota$meanpart))
+lab.match = lapply(compar$weight,function(x) apply(x,2,which.max))
+kcl.algnd = match(kcl$cluster,lab.match[[1]])
+ota.algnd = match(ota$meanpart,lab.match[[2]])
+```
+
+```{r, echo=T, cache=T, fig.show='hold'}
+# plot the result on two dimensional space.
+otplot(sim1$X,sim1$z,con=F,title='Truth')   # ground truth
+otplot(sim1$X,kcl.algnd,con=F,title='Kmeans')   # baseline method
+otplot(sim1$X,ota.algnd,con=F,title='Mean partition')   # mean partition by OTclust
+```
+
+## 3. Uncertainty assessment of clustering results
+
+Here, as cluster-wise uncertainty measures, we briefly introduce the usage of topological relationship statistics of mean partitions, cluster alignment and points based (CAP) separability, and covering point sets (CPS). The detailed definition of the above statistics can be found in [1]. Moveover, if you want to carry out CPS Analysis, please next two sections.
+
+```{r, echo=T, cache=T}
+# distance between ground truth and each partition
+wassDist(sim1$z,kmeans(sim1$X,C)$cluster)   # baseline method
+wassDist(sim1$z,ota$meanpart)   # mean partition by OTclust
+
+# Topological relationships between mean partition and ensemble clusters
+t(ota$match)
+
+# Cluster Alignment and Points based (CAP) separability
+ota$cap
+```
+```{r, echo=T, cache=T, fig.show='hold'}
+# Covering Point Set(CPS)
+otplot(sim1$X,ota$cps[lab.match[[2]][1],],legend.labels=c('','CPS'),add.text=F,title='CPS for C1')
+otplot(sim1$X,ota$cps[lab.match[[2]][2],],legend.labels=c('','CPS'),add.text=F,title='CPS for C2')
+otplot(sim1$X,ota$cps[lab.match[[2]][3],],legend.labels=c('','CPS'),add.text=F,title='CPS for C3')
+otplot(sim1$X,ota$cps[lab.match[[2]][4],],legend.labels=c('','CPS'),add.text=F,title='CPS for C4')
+```
+
+The red area of the above plots indicates covering point set (CPS) for each cluster. The detail of the CPS analysis is addressed in the next section.
+
+## 4. CPS Analysis on selection of visualization methods
+
+The functions that are going to be used in this section are <samp2>visCPS( )</samp2>, <samp2>mplot( )</samp2> and <samp2>cplot( )</samp2>. First, the function <samp2>visCPS( )</samp2> is used for the main computation of the CPS Analysis. The input should include: 1. <samp2>vlab</samp2>, which is the visualization coordinates generated by the visualization method that you are going to assess. 2. <samp2>ref</samp2>, the true cluster labels of the samples. 3. <samp2>nEXP</samp2>, which is optional, the number of perturbed reuslts for CPS Analysis, default 100. Larger the <samp2>nEXP</samp2> is, the longer time it will take to compute.
+
+```{r, fig.show='hold', cache=T}
+# CPS analysis on selection of visualization methods
+data(vis_pollen)
+c=visCPS(vis_pollen$vis, vis_pollen$ref)
+```
+
+After the computation, we have the return list c, which would be the input of function <samp2>mplot( )</samp2> or <samp2>cplot( )</samp2>. The <samp2>mplot( )</samp2> will provide the membership heat map of the required cluster, and the input should be <samp2>c</samp2> and the cluster number. The <samp2>cplot( )</samp2> will provide the covering point set plot of the required cluster, and the input should be <samp2>c</samp2> and the cluster number.
+
+```{r, fig.show='hold', cache=T}
+# visualization of the result
+mplot(c,2)
+cplot(c,2)
+```
+
+Furthermore, if you want to see the statitics, you can simply view the return of <samp2>visCPS( )</samp2>:
+```{r, fig.show='hold', cache=T}
+# overall tightness
+c$tight_all
+# cluster-wise tightness
+c$tight
+```
+
+
+## 5. CPS Analysis on validation of clustering result
+
+In this section, the relevant functions are <samp2>clustCPS( )</samp2>, <samp2>preprocess( )</samp2>, <samp2>perturb( )</samp2>, <samp2>CPS( )</samp2>, <samp2>mplot( )</samp2> and <samp2>cplot( )</samp2>. For most of the users, you just need to use the <samp2>clustCPS( )</samp2> for the CPS Analysis. It will provide you a lot of choice: For visualization method, you can choose between <samp2>tsne</samp2> and <samp2>umap</samp2>. You can decide to add the noise before or after the dimension reduction by parameter <samp2>noi</samp2>. Also, you can choose to use <samp2>Kmeans</samp2> or <samp2>Mclust</samp2> as the clustering method. Here is the example of a single cell dataset, choosing to use the log transformation and preprocessing based on the variance, which can reduct the initial dimension of the data set. If you want to use other dimension reduction technique or you need to carry out other preprocession than we proivde, you just need to set <samp2>l=FALSE, pre=FALSE, dimr="None"</samp2>, and then input your processed result as parameter data.
+
+
+```{r, fig.show='hold', cache=T}
+# CPS Analysis on validation of clustering result
+data(YAN)
+y=clustCPS(YAN, k=7, l=FALSE, pre=FALSE, noi="after", cmethod="kmeans", dimr="PCA", vis="tsne")
+
+# visualization of the results
+mplot(y,4)
+cplot(y,4)
+```
+
+If you want to try other clustering method rather than <samp2>Kmeans</samp2> or <samp2>Mclust</samp2>, you will need to use the function <samp2>CPS( )</samp2>. For this function, you need to input several things. First, the reference clustering result, which might be generated by your own clustering method. Second, the 2-dimension visualization coordinates of your samples, which will be further used by <samp2>mplot( )</samp2> or <samp2>cplot( )</samp2>. Third, a collection of clustering results in a matrix format, each column represents one clustering result. To get this matrix, you might also want to use the function <samp2>perturb( )</samp2>. Suppose the dataset you are going to use for clustering is <samp2>X</samp2>, then <samp2>perturb(X)</samp2> will give you a perturbed version of it. You can use this perturbed version for clustering to get one clustering result. Repeat this for several times, you will get a collection of clustering results.
+
+## References
+
+[1] J. Li, B. Seo, and L. Lin, Optimal Transport, Mean Partition, and Uncertainty Assessment in Cluster Analysis, Statistical Analysis and Data Mining.
