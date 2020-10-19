@@ -12,7 +12,18 @@ otclust(ensemble, idx = NULL)
 \item{idx}{-- an integer indicating the index of reference partition in \code{ensemble}. If not specified, median partition is used as the reference partition.}
 }
 \value{
-a list of mean partition(meanpart), distance of mean partition to other partitions in ensemble(distance), weight matrix(weight), topological stability statistics(match), covering point set(cps), cluster alignment and point-based separability(cap).
+a list of alignment result.
+\item{idx}{the index of reference partition.}
+\item{avedist}{average distances between each partition and all ensemble partitions.}
+\item{meanpart}{a list of mean partition.}
+\item{distance}{Wasserstein distances between mean partition and the others.}
+\item{numcls}{the number of clusters for each partition.}
+\item{statistics}{average tightness ratio, average coverage ratio, 1-average jaccard distance.}
+\item{cap}{cluster alignment and points based (CAP) separability.}
+\item{id}{switched labels.}
+\item{cps}{covering point set.}
+\item{match}{topological relationship statistics between the reference partition and the others.}
+\item{Weight}{weight matrix.}
 }
 \description{
 This function calculates the mean partition of an ensemble of partitions by optimal transport alignment and uncertainty/stability measures.
@@ -21,7 +32,7 @@ This function calculates the mean partition of an ensemble of partitions by opti
 data(sim1)
 # the number of clusters.
 C = 4
-ens.data = ensemble(sim1$X, nbs=8, clust_param=C, clustering="kmeans", perturb_method=1)
+ens.data = ensemble(sim1$X[1:100,], nbs=10, clust_param=C, clustering="kmeans", perturb_method=1)
 # find mean partition and uncertainty statistics.
 ota = otclust(ens.data)
 }

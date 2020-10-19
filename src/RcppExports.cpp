@@ -6,20 +6,21 @@
 using namespace Rcpp;
 
 // ACPS
-List ACPS(IntegerVector x, int nbs);
-RcppExport SEXP _OTclust_ACPS(SEXP xSEXP, SEXP nbsSEXP) {
+List ACPS(IntegerVector x, int nbs, int reference);
+RcppExport SEXP _OTclust_ACPS(SEXP xSEXP, SEXP nbsSEXP, SEXP referenceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< IntegerVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type nbs(nbsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ACPS(x, nbs));
+    Rcpp::traits::input_parameter< int >::type reference(referenceSEXP);
+    rcpp_result_gen = Rcpp::wrap(ACPS(x, nbs, reference));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_OTclust_ACPS", (DL_FUNC) &_OTclust_ACPS, 2},
+    {"_OTclust_ACPS", (DL_FUNC) &_OTclust_ACPS, 3},
     {NULL, NULL, 0}
 };
 

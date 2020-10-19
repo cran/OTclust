@@ -1314,7 +1314,7 @@ void AveConfset(CLink **clist2, int numcls, int *nsamples, float alpha, int **co
 }
 
 // [[Rcpp::export]]
-List ACPS(IntegerVector x, int nbs)
+List ACPS(IntegerVector x, int nbs, int reference)
 {
     int i,j,k,n,m=x.size();
     int len;
@@ -1337,39 +1337,86 @@ List ACPS(IntegerVector x, int nbs)
     for (m=0,n=len*nbs;m<n;m++) {
         cls[m]=x[m];
     }
+
+    if (reference!=0 && reference!=1) {
+        Rcpp::stop("Wrong reference value");
+    } 
+    else if (reference == 0){
+        /*------------------------------------------------------------*/
+        /*- Iteration for nbs times                                  -*/
+        /*------------------------------------------------------------*/
+    
+        float *avedist;
+        int iter;
+
+        avedist=(float *)calloc(nbs,sizeof(float));
+        for (iter=0;iter<nbs;iter++) {
+            // Insert the bootstrap sample as the current reference
+            for(m=0;m<len;m++) {
+                cls[m] = cls[len*iter+m];
+            }
+
+        /*------------------------------------------------------------*/
+        /*- Alignment done here to get the key matching matrix wt[]  -*/
+        /*------------------------------------------------------------*/
+    
+            align(cls,nbs,len,&wt,&numcls,&dist,equalcls);
+  
+        /*------------------------------------------------------------*/
+        /*- Output the weight matrix and the distances between        */
+        /*- clustering results.                                       */
+        /*------------------------------------------------------------*/
+            for (i=0,avedist[iter]=0.0;i<nbs;i++){
+                avedist[iter]+=dist[i];
+            }
+            avedist[iter]/=(float)nbs; //v1 is the average Distance to the other bootstrap samples
+
+            free(wt);
+            free(numcls);
+            free(dist);
+        }
+
+        NumericVector y3(nbs);
+        for (i=0;i<nbs;i++){
+            y3[i]=avedist[i];
+        }
+
+        List L=List::create(Named("avedist")=y3);
+        return L;
+    }
     /*------------------------------------------------------------*/
     /*- Alignment done here to get the key matching matrix wt[]  -*/
     /*------------------------------------------------------------*/
-
+    
     align(cls,nbs,len,&wt,&numcls,&dist,equalcls);
-
+    
     /*------------------------------------------------------------*/
     /*- Analysis done based on the matching weight matrix.        */
     /*------------------------------------------------------------*/
     int n0=numcls[0], nr;
     int **codect, *clsct0;
     float **nfave;
-
+    
     codect=(int **)calloc(n0,sizeof(int *));
     nfave=(float **)calloc(n0,sizeof(float *));
     for (i=0;i<n0;i++) {
         codect[i]=(int *)calloc(4,sizeof(int));
         nfave[i]=(float *)calloc(4,sizeof(float));
     }
-
+    
     for (i=1,nr=0;i<nbs;i++){ nr+=numcls[i];}
     res=(float *)calloc(nr*n0,sizeof(float));
-
+    
     //Convert weight matrix wt[] into match-split status matrix res[]
     //Summarize the reliability of all the clusters
     MatchSplit(wt, res, numcls, nbs, codect, nfave, thred);
-
+    
     //Compute confidence sets and average ratios for matched/split clusters
     CLink **clist2;
     int *nsamples;
     int **confpts, *npts, *matchID;
     float *avetight, *avecov, *avejacaard, *rinclude, *csetdist;
-
+    
     matchID=(int *)calloc(len*nbs,sizeof(int));
     confpts=(int **)calloc(numcls[0],sizeof(int *));
     npts=(int *)calloc(numcls[0],sizeof(int));
@@ -1378,10 +1425,10 @@ List ACPS(IntegerVector x, int nbs)
     avejacaard=(float *)calloc(numcls[0],sizeof(float));
     rinclude=(float *)calloc(numcls[0],sizeof(float));
     csetdist=(float *)calloc(numcls[0]*numcls[0],sizeof(float));
-
+    
     MatchCluster(res,numcls,nbs,thred,cls,len,&clist2, &nsamples, usesplit, matchID);
     AveConfset(clist2, numcls[0], nsamples, alpha, confpts, npts, avetight, avecov, avejacaard, rinclude, csetdist);
-
+    
     /*------------------------------------------------------------*/
     /*- Output results                                            */
     /*------------------------------------------------------------*/
@@ -1399,16 +1446,16 @@ List ACPS(IntegerVector x, int nbs)
             id(i,j)=matchID[i+j*len]+1;
         }
     }
-
+    
     NumericVector y1(nbs);
     for (i=0;i<nbs;i++){
         y1[i]=dist[i];
     }
-
+    
     NumericVector y2(nbs);
     for (i=0;i<nbs;i++){
         y2[i]=numcls[i];
-    }    
+    }
     
     NumericMatrix st(n0,6);
     for(i=0;i<n0;i++){
@@ -1420,7 +1467,7 @@ List ACPS(IntegerVector x, int nbs)
         st(i,5)=1-avejacaard[i];
     }
     colnames(st) = CharacterVector::create("cls_id","num_obs","rinclude","avg_tight","avg_cov","avg_jaccard");
-
+    
     
     IntegerMatrix ma(n0,4);
     for(i=0;i<n0;i++){
@@ -1429,24 +1476,24 @@ List ACPS(IntegerVector x, int nbs)
         }
     }
     colnames(ma) = CharacterVector::create("match","split","merge","l.c.");
-
-
+    
+    
     NumericMatrix cap(n0,n0);
     for (i=0;i<n0;i++){
         for (j=0;j<n0;j++)
             cap(i,j)=csetdist[i*n0+j];
     }
-
+    
     //Output confidence set for each reference cluster
     //Every cluster takes one row. Cluster ID, Cluster size, points IDs one by one
-
+    
     IntegerMatrix cps(n0,len);
     for (i=0;i<n0;i++) {
         for (j=0;j<npts[i];j++){
             cps(i,confpts[i][j])=1;
         }
     }
-
+    
     NumericMatrix wtm(nr,n0);
     for (i=1,m=0;i<nbs;i++){
         for (j=0;j<numcls[i];j++){
@@ -1456,7 +1503,7 @@ List ACPS(IntegerVector x, int nbs)
             m++;
         }
     }
-
+    
     List L=List::create(Named("distance")=y1,
                         Named("numcls")=y2,
                         Named("statistics")=st,
@@ -1465,7 +1512,7 @@ List ACPS(IntegerVector x, int nbs)
                         Named("cps")=cps,
                         Named("match")=ma,
                         Named("weight")=wtm);
-
+    
     free(cls);
     free(wt);
     free(res);
@@ -1483,7 +1530,7 @@ List ACPS(IntegerVector x, int nbs)
     free(avejacaard);
     free(rinclude);
     free(csetdist);
-
+    
     return L;
 }
 

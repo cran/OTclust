@@ -13,6 +13,7 @@
 #' cplot(c,2)
 #' @export
 cplot <- function(result, k){
+  if((length(k) != 1) || k < 1) stop('k should be a positive integer >= 1!\n')
   colo=matrix("OUT",ncol=1,nrow=nrow(result$vis))
   cpsk=which(result$set[,k]!=0)
   colo[cpsk]="IN"

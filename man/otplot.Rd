@@ -4,13 +4,22 @@
 \alias{otplot}
 \title{Visulize a partition on 2 dimensional space}
 \usage{
-otplot(data, labels, convex.hull = F, title = "", xlab = "",
-  ylab = "", legend.title = "", legend.labels = NULL, add.text = T)
+otplot(
+  data,
+  labels,
+  convex.hull = F,
+  title = "",
+  xlab = "",
+  ylab = "",
+  legend.title = "",
+  legend.labels = NULL,
+  add.text = T
+)
 }
 \arguments{
 \item{data}{-- cordinates matrix of data.}
 
-\item{labels}{-- cluster labels.}
+\item{labels}{-- cluster labels in a vector, the first cluster is labeled as 1.}
 
 \item{convex.hull}{-- logical. If it is \code{True}, the plot draws convex hull for each cluster.}
 

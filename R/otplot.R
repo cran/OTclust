@@ -2,7 +2,7 @@
 #'
 #' This function plots a partition on 2 dimensional reduced space.
 #' @param data -- cordinates matrix of data.
-#' @param labels -- cluster labels.
+#' @param labels -- cluster labels in a vector, the first cluster is labeled as 1.
 #' @param convex.hull -- logical. If it is \code{True}, the plot draws convex hull for each cluster.
 #' @param title -- title
 #' @param xlab -- xlab
@@ -32,7 +32,7 @@
 #' @export
 
 otplot <- function(data,labels,convex.hull=F,title="",xlab="",ylab="",legend.title="",legend.labels=NULL,add.text=T){
-    
+    if(!is.matrix(data)) stop('data must be a matrix\n')
     K = labels
     if(dim(data)[2]==2){
         Y = data.frame(PC1=data[,1],PC2=data[,2])

@@ -13,6 +13,7 @@
 #' cplot(c,2)
 #' @export
 mplot <- function(result, k){
+  if((length(k) != 1) || k < 1) stop('k should be a positive integer >= 1!\n')
   col=matrix(0,ncol=1,nrow=nrow(result$vis))
   cc=function(x,a){
     sum(x==a)

@@ -4,8 +4,7 @@
 \alias{ensemble}
 \title{Generate an ensemble of partitions.}
 \usage{
-ensemble(data, nbs, clust_param, clustering = "kmeans",
-  perturb_method = 1)
+ensemble(data, nbs, clust_param, clustering = "kmeans", perturb_method = 1)
 }
 \arguments{
 \item{data}{-- data that will be perturbed.}
@@ -14,7 +13,7 @@ ensemble(data, nbs, clust_param, clustering = "kmeans",
 
 \item{clust_param}{-- parameters for pre-defined clustering methods. If clustering is "kmeans", "Mclust", "hclust", this is an integer indicating the number of clusters. For "dbscan", a numeric indicating epsilon. For "HMM-VB", a list of parameters.}
 
-\item{clustering}{-- baseline clustering methods. User specified functions or example methods included in package ("kmeans", "Mclust", "hclust", "dbscan", "PCAreduce", "HMM-VB") can be used. Refer to the Detail.}
+\item{clustering}{-- baseline clustering methods. User specified functions or example methods included in package ("kmeans", "Mclust", "hclust", "dbscan", "HMM-VB") can be used. Refer to the Detail.}
 
 \item{perturb_method}{-- adding noise is \code{0} and bootstrap resampling is \code{1}. Default is bootstrap resampling.
 # perturb_method=0 perturbed by adding Gaussian noise.}

@@ -33,12 +33,3 @@ data(sim1)
 #  load('ens.data.rda')
 #  load('OTA.rda')
 
-## ---- fig.show='hold', cache=T-------------------------------------------
-# CPS Analysis on validation of clustering result
-data(YAN)
-y=clustCPS(YAN, k=7, l=FALSE, pre=FALSE, noi="after", cmethod="kmeans", dimr="PCA", vis="tsne")
-
-# visualization of the results
-mplot(y,4)
-cplot(y,4)
-

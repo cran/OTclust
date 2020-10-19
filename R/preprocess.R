@@ -10,6 +10,7 @@
 #' preprocess(YAN,l=FALSE,pre=TRUE)
 #' @export
 preprocess <- function(data, l = TRUE, pre = TRUE){
+  if(!is.matrix(data)) stop('data must be a matrix\n')
   ## log-transfromation
   if(l) {data=log2(as.matrix(data) + 1)}
   ## pre-dimention reduction

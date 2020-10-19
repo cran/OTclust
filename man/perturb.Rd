@@ -19,5 +19,5 @@ Perturb data by adding Gaussian noise or bootstrap resampling. Gaussian noise ha
 }
 \examples{
 data(vis_pollen)
-perturb(vis_pollen$vis,method=0)
+perturb(as.matrix(vis_pollen$vis),method=0)
 }

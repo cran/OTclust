@@ -4,9 +4,19 @@
 \alias{clustCPS}
 \title{CPS Analysis for cluster validation..}
 \usage{
-clustCPS(data, k, l = TRUE, pre = TRUE, noi = "after",
-  cmethod = "kmeans", dimr = "PCA", vis = "tsne", ref = NULL,
-  nPCA = 50, nEXP = 100)
+clustCPS(
+  data,
+  k,
+  l = TRUE,
+  pre = TRUE,
+  noi = "after",
+  cmethod = "kmeans",
+  dimr = "PCA",
+  vis = "tsne",
+  ref = NULL,
+  nPCA = 50,
+  nEXP = 100
+)
 }
 \arguments{
 \item{data}{-- data given in a matrix format, where rows are samples, and columns are variables.}

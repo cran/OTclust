@@ -30,7 +30,9 @@ addnoise <- function(x,nrow,sd){
 #' mplot(y,4)
 #' @export
 clustCPS <- function(data, k, l = TRUE, pre = TRUE, noi="after", cmethod="kmeans", dimr="PCA", vis="tsne", ref = NULL, nPCA = 50, nEXP = 100){
-  data=as.matrix(data)
+  if(!is.matrix(data)) stop('data must be a matrix\n')
+  if((length(k) != 1) || k < 2) stop('k should be a positive integer >= 2!\n')
+  if(!is.null(ref) & (min(ref)!=1)) stop('If provide, ref should be a numeric vector and the first cluster is labeled as 1!\n')
   ## log-transfromation
   if(l) {data=log2(as.matrix(data) + 1)}
   ## pre-dimention reduction
@@ -63,6 +65,7 @@ clustCPS <- function(data, k, l = TRUE, pre = TRUE, noi="after", cmethod="kmeans
       ref=matrix(ref$classification,ncol=1)
     }
   }
+  if(min(ref)<1) stop('the first cluster must be labeled as 1\n')
   ## generate perturbed data then cluster
   # calculate the average within-cluster variance of the clustering result
   re=matrix(0,ncol=nEXP,nrow=nrow(pca))
@@ -99,7 +102,7 @@ clustCPS <- function(data, k, l = TRUE, pre = TRUE, noi="after", cmethod="kmeans
   }
   ## CPS Analysis
   save=rbind(matrix(as.integer(ref)-1,ncol=1),matrix(as.integer(re)-1,ncol=1))
-  cps=ACPS(save,nEXP+1)
+  cps=ACPS(save,nEXP+1,1)
   pen=1-cps$match[,4]/apply(cps$match,1,sum)
   tit=cps$statistics[,4]*pen
   tit=matrix(tit,nrow=1)

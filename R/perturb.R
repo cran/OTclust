@@ -6,9 +6,10 @@
 #' @return the perturbed data.
 #' @examples
 #' data(vis_pollen)
-#' perturb(vis_pollen$vis,method=0)
+#' perturb(as.matrix(vis_pollen$vis),method=0)
 #' @export
 perturb <- function(data, method=0){
+  if(!is.matrix(data)) stop('data must be a matrix\n')
   if(method==1){
     ## Bootstrap resampling
     n = nrow(data)

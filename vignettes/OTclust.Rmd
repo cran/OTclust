@@ -4,7 +4,7 @@ author: "Lixiang Zhang and Beomseok Seo"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Quick tour of OTclust}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -161,4 +161,6 @@ If you want to try other clustering method rather than <samp2>Kmeans</samp2> or 
 
 ## References
 
-[1] J. Li, B. Seo, and L. Lin, Optimal Transport, Mean Partition, and Uncertainty Assessment in Cluster Analysis, Statistical Analysis and Data Mining.
+[1] Jia Li, Beomseok Seo, and Lin Lin. "Optimal transport, mean partition, and uncertainty assessment in cluster analysis." Statistical Analysis and Data Mining: The ASA Data Science Journal 12.5 (2019): 359-377.
+
+[2] Lixiang Zhang, Lin Lin, and Jia Li. "CPS analysis: self-contained validation of biomedical data clustering." Bioinformatics 36.11 (2020): 3516-3521.

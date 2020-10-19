@@ -7,7 +7,7 @@
 align(data)
 }
 \arguments{
-\item{data}{-- a matrix of horizontally stacked cluster labels. Each column contains cluster labels for all the data points according to one clustering result. The reference clustering result is put in the first column.}
+\item{data}{-- a numeric matrix of horizontally stacked cluster labels. Each column contains cluster labels for all the data points according to one clustering result. The reference clustering result is put in the first column, and the first cluster must be labeled as 1.}
 }
 \value{
 a list of alignment result.
@@ -15,10 +15,10 @@ a list of alignment result.
 \item{numcls}{the number of clusters for each partition.}
 \item{statistics}{average tightness ratio, average coverage ratio, 1-average jaccard distance.}
 \item{cap}{cluster alignment and points based (CAP) separability.}
-\item{id}{}
+\item{id}{switched labels.}
 \item{cps}{covering point set.}
 \item{match}{topological relationship statistics between the reference partition and the others.}
-\item{Weight}{weight matrix}
+\item{Weight}{weight matrix.}
 }
 \description{
 This function aligns an ensemble of partitions with a reference partition by optimal transport.

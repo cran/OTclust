@@ -7,9 +7,9 @@
 CPS(ref, vis, pert)
 }
 \arguments{
-\item{ref}{-- the reference clustering result, the first cluster is labeled as 1.}
+\item{ref}{-- the reference clustering result in a vector, the first cluster is labeled as 1.}
 
-\item{vis}{-- the visualization coordinates.}
+\item{vis}{-- the visualization coordinates in a numeric matrix of two columns.}
 
 \item{pert}{-- a collection of clustering results in a matrix format, each column represents one clustering result.}
 }
@@ -17,7 +17,7 @@ CPS(ref, vis, pert)
 a list used for mplot or cplot, in which tight_all is the overall tightness, member is the matrix used for the membership heat map, set is the matrix for the covering point set plot, tight is the vector of cluster-wise tightness, vis is the visualization coordinates, and ref is the reference labels.
 }
 \description{
-Covering Point Set Analysis of given clustering results. It conducts alignment among different results and then calculates the covering point set. The return contains several statistics which can be directly used as input for mplot or cplot. By using this function you can design your own workflow instead od using clustCPS, see vignette for more destails.
+Covering Point Set Analysis of given clustering results. It conducts alignment among different results and then calculates the covering point set. The return contains several statistics which can be directly used as input for mplot or cplot. By using this function you can design your own workflow instead of using clustCPS, see vignette for more destails.
 }
 \examples{
 # CPS analysis on selection of visualization methods

@@ -10,5 +10,6 @@
 #' @export
 
 wassDist <- function(x,y){
-  ACPS(c(x,y),2)$distance[2]
+  if(min(c(x,y))<1) stop('the first cluster must be labeled as 1\n')
+  ACPS(c(x,y),2,1)$distance[2]
 }
