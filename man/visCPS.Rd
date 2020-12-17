@@ -14,7 +14,7 @@ visCPS(vlab, ref, nEXP = 100)
 \item{nEXP}{-- number of perturbed reuslts for CPS Analysis.}
 }
 \value{
-a list used for mplot or cplot, in which tight_all is the overall tightness, member is the matrix used for the membership heat map, set is the matrix for the covering point set plot, tight is the vector of cluster-wise tightness, vis is the visualization coordinates, and ref is the reference labels.
+a list used for mplot or cplot, in which tight_all is the overall tightness, member is the matrix used for the membership heat map, set is the matrix for the covering point set plot, tight is the vector of cluster-wise tightness, vis is the visualization coordinates, ref is the reference labels and topo is the topological relationship between clusters for point-wise uncertainty assessment.
 }
 \description{
 Covering Point Set Analysis on the visualization results. Use K-Nearest Neighbor to generate a collection of results for CPS Analysis. The return contains several statistics which can be directly used as input for mplot or cplot.

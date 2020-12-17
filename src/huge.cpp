@@ -1,8 +1,8 @@
 //
 //  huge.cpp
 //
+//
 //  Created by 张力翔 on 2018/9/4.
-//  Modified by beomseok on 2019/5/1.
 //
 #include <stdio.h>
 #include <string.h>
@@ -1340,7 +1340,7 @@ List ACPS(IntegerVector x, int nbs, int reference)
 
     if (reference!=0 && reference!=1) {
         Rcpp::stop("Wrong reference value");
-    } 
+    }
     else if (reference == 0){
         /*------------------------------------------------------------*/
         /*- Iteration for nbs times                                  -*/
@@ -1498,11 +1498,22 @@ List ACPS(IntegerVector x, int nbs, int reference)
     for (i=1,m=0;i<nbs;i++){
         for (j=0;j<numcls[i];j++){
             for (k=0;k<numcls[0];k++){
-                wtm((i-1)*numcls[i]+j,k) = wt[m*numcls[0]+k];
+                wtm(m,k) = wt[m*numcls[0]+k];
             }
             m++;
         }
     }
+    
+    NumericMatrix resm(nr,n0);
+    for (i=1,m=0;i<nbs;i++){
+        for (j=0;j<numcls[i];j++){
+            for (k=0;k<numcls[0];k++){
+                resm(m,k) = res[m*numcls[0]+k];
+            }
+            m++;
+        }
+    }
+
     
     List L=List::create(Named("distance")=y1,
                         Named("numcls")=y2,
@@ -1511,7 +1522,8 @@ List ACPS(IntegerVector x, int nbs, int reference)
                         Named("id")=id,
                         Named("cps")=cps,
                         Named("match")=ma,
-                        Named("weight")=wtm);
+                        Named("weight")=wtm,
+                        Named("topo_result")=resm);
     
     free(cls);
     free(wt);
@@ -1533,7 +1545,6 @@ List ACPS(IntegerVector x, int nbs, int reference)
     
     return L;
 }
-
 
 
 

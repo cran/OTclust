@@ -14,7 +14,7 @@ NULL
 #' @param ref -- the reference clustering result in a vector, the first cluster is labeled as 1.
 #' @param vis -- the visualization coordinates in a numeric matrix of two columns.
 #' @param pert -- a collection of clustering results in a matrix format, each column represents one clustering result.
-#' @return a list used for mplot or cplot, in which tight_all is the overall tightness, member is the matrix used for the membership heat map, set is the matrix for the covering point set plot, tight is the vector of cluster-wise tightness, vis is the visualization coordinates, and ref is the reference labels.
+#' @return a list used for mplot or cplot, in which tight_all is the overall tightness, member is the matrix used for the membership heat map, set is the matrix for the covering point set plot, tight is the vector of cluster-wise tightness, vis is the visualization coordinates, ref is the reference labels and topo is the topological relationship between clusters for point-wise uncertainty assessment.
 #' @examples
 #' # CPS analysis on selection of visualization methods
 #' data(vis_pollen)
@@ -47,7 +47,8 @@ CPS <- function(ref, vis, pert){
   set=t(cps$cps)
   tight=tit
   v=vis
-  out=list(tight_all=tight_all, member=member, set=set, tight=tight, vis=v, ref=ref)
+  topo=cps$topo_result
+  out=list(tight_all=tight_all, member=member, set=set, tight=tight, vis=v, ref=ref, topo=topo, numcls=cps$numcls, nEXP=nEXP, save=save, weight=cps$weight)
 }
 
 

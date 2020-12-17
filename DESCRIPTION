@@ -1,7 +1,7 @@
 Package: OTclust
 Title: Mean Partition, Uncertainty Assessment, Cluster Validation and
         Visualization Selection for Cluster Analysis
-Version: 1.0.3
+Version: 1.0.4
 Authors@R: c(person("Lixiang", "Zhang", email = "lzz46@psu.edu", role = c("aut", "cre")),person("Beomseok", "Seo", email = "bzs32@psu.edu", role = "aut"),person("Lin", "Lin", email = "llin@psu.edu", role = "aut"),person("Jia", "Li", email = "jiali@psu.edu", role = "aut"))
 Author: Lixiang Zhang [aut, cre],
   Beomseok Seo [aut],
@@ -20,6 +20,6 @@ VignetteBuilder: knitr
 LinkingTo: Rcpp
 Imports: Rcpp, ggplot2, RColorBrewer, magrittr, class
 NeedsCompilation: yes
-Packaged: 2020-10-19 19:00:14 UTC; zhanglixiang
+Packaged: 2020-12-17 21:42:06 UTC; zhanglixiang
 Repository: CRAN
-Date/Publication: 2020-10-19 19:40:02 UTC
+Date/Publication: 2020-12-17 23:10:02 UTC

@@ -17,7 +17,7 @@ addnoise <- function(x,nrow,sd){
 #' @param ref -- optional, clustering reuslt in a vector format and the first cluster is labeled as 1. If provided it will be used as the reference, if not we will generate one.
 #' @param nPCA -- number of principal conponents to use, default 50.
 #' @param nEXP -- number of perturbed clustering reuslts for CPS Analysis, default 100.
-#' @return a list used for mplot or cplot, in which tight_all is the overall tightness, member is the matrix used for the membership plot, set is the matrix for the covering point set plot, tight is the vector of cluster-wise tightness, vis is the visualization coordinates, and ref is the reference labels.
+#' @return a list used for mplot or cplot, in which tight_all is the overall tightness, member is the matrix used for the membership plot, set is the matrix for the covering point set plot, tight is the vector of cluster-wise tightness, vis is the visualization coordinates, ref is the reference labels and topo is the topological relationship between clusters for point-wise uncertainty assessment.
 #' @examples
 #' # CPS Analysis on validation of clustering result
 #' data(YAN)
@@ -113,5 +113,6 @@ clustCPS <- function(data, k, l = TRUE, pre = TRUE, noi="after", cmethod="kmeans
   member=cps$id
   set=t(cps$cps)
   tight=tit
-  out=list(tight_all=tight_all, member=member, set=set, tight=tight, vis=v, ref=ref)
+  topo=cps$topo_result
+  out=list(tight_all=tight_all, member=member, set=set, tight=tight, vis=v, ref=ref, topo=topo, numcls=cps$numcls, nEXP=nEXP, save=save, weight=cps$weight)
 }

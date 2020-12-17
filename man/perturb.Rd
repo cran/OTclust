@@ -2,20 +2,20 @@
 % Please edit documentation in R/perturb.R
 \name{perturb}
 \alias{perturb}
-\title{Perturb data by adding noise or bootstrapping}
+\title{Perturb data by adding noise, bootstrapping or mix-up}
 \usage{
 perturb(data, method = 0)
 }
 \arguments{
 \item{data}{-- data that will be perturbed.}
 
-\item{method}{-- adding noise is \code{0} and bootstrapping is \code{1}. Default is adding noise.}
+\item{method}{-- adding noise is \code{0}, bootstrapping is \code{1} and mix-up is \code{2}. Default is adding noise.}
 }
 \value{
 the perturbed data.
 }
 \description{
-Perturb data by adding Gaussian noise or bootstrap resampling. Gaussian noise has mean 0 and variance 0.01*average variance of all variables.
+Perturb data by adding Gaussian noise, bootstrap resampling or mix-up. Gaussian noise has mean 0 and variance 0.01*average variance of all variables. The mix-up lambda is 0.9.
 }
 \examples{
 data(vis_pollen)
