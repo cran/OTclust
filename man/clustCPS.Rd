@@ -23,7 +23,7 @@ clustCPS(
 
 \item{k}{-- number of clusters.}
 
-\item{l}{-- logical. If True, log-transforamtion will be carried out on the data.}
+\item{l}{-- logical. If True, log-transformation will be carried out on the data.}
 
 \item{pre}{-- logical. If True, pre-dimension reduction will be carried out based on the variance.}
 
@@ -35,11 +35,11 @@ clustCPS(
 
 \item{vis}{-- the visualization method to be used, such as "tsne" and "umap", default "tsne". Also, you can provide your own visualization coordinates in a numeric matrix of two columns.}
 
-\item{ref}{-- optional, clustering reuslt in a vector format and the first cluster is labeled as 1. If provided it will be used as the reference, if not we will generate one.}
+\item{ref}{-- optional, clustering result in a vector format and the first cluster is labeled as 1. If provided it will be used as the reference, if not we will generate one.}
 
-\item{nPCA}{-- number of principal conponents to use, default 50.}
+\item{nPCA}{-- number of principal components to use, default 50.}
 
-\item{nEXP}{-- number of perturbed clustering reuslts for CPS Analysis, default 100.}
+\item{nEXP}{-- number of perturbed clustering results for CPS Analysis, default 100.}
 }
 \value{
 a list used for mplot or cplot, in which tight_all is the overall tightness, member is the matrix used for the membership plot, set is the matrix for the covering point set plot, tight is the vector of cluster-wise tightness, vis is the visualization coordinates, ref is the reference labels and topo is the topological relationship between clusters for point-wise uncertainty assessment.

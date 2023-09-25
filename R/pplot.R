@@ -8,7 +8,7 @@ Gini <- function(x){
 #' Output both the numerical and graphical point-wise uncertainty assessment for each individual points. The return of clustCPS, visCPS or CPS can be directly used as the input.
 #' @param result -- the return from function clustCPS, visCPS or CPS.
 #' @param method -- method for calculating point-wise uncertainty. Using posterior probability matrix is \code{0} and using topological information between clusters is \code{1}. Default is using posterior probability matrix.
-#' @return a list, in which P is the posterior probability matrix that each sample belows to the reference clusters, point_stab is the point-wise stability for each sample and v is the visualization of the point-wise stability.
+#' @return a list, in which P is the posterior probability matrix that each sample below to the reference clusters, point_stab is the point-wise stability for each sample and v is the visualization of the point-wise stability.
 #' @examples
 #' # CPS analysis on selection of visualization methods
 #' data(vis_pollen)

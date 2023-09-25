@@ -10,7 +10,7 @@ NULL
 
 #' CPS Analysis on a collection of clustering results
 #'
-#' Covering Point Set Analysis of given clustering results. It conducts alignment among different results and then calculates the covering point set. The return contains several statistics which can be directly used as input for mplot or cplot. By using this function you can design your own workflow instead of using clustCPS, see vignette for more destails.
+#' Covering Point Set Analysis of given clustering results. It conducts alignment among different results and then calculates the covering point set. The return contains several statistics which can be directly used as input for mplot or cplot. By using this function you can design your own workflow instead of using clustCPS, see vignette for more details.
 #' @param ref -- the reference clustering result in a vector, the first cluster is labeled as 1.
 #' @param vis -- the visualization coordinates in a numeric matrix of two columns.
 #' @param pert -- a collection of clustering results in a matrix format, each column represents one clustering result.
@@ -36,7 +36,7 @@ CPS <- function(ref, vis, pert){
   nEXP=ncol(pert)
   save=rbind(matrix(as.integer(ref)-1,ncol=1),matrix(as.integer(pert)-1,ncol=1))
   cps=ACPS(save,nEXP+1,1)
-  pen=1-cps$match[,4]/apply(cps$match,1,sum)
+  pen=cps$match[,1]/apply(cps$match,1,sum)
   tit=cps$statistics[,4]*pen
   tit=matrix(tit,nrow=1)
   rownames(tit)=c("Tightness of each cluster")

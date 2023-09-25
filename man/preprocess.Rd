@@ -9,7 +9,7 @@ preprocess(data, l = TRUE, pre = TRUE)
 \arguments{
 \item{data}{-- data that needs to be processed}
 
-\item{l}{-- logical. If True, log-transforamtion will be carried out on the data.}
+\item{l}{-- logical. If True, log-transformation will be carried out on the data.}
 
 \item{pre}{-- logical. If True, pre-dimension reduction will be carried out based on the variance.}
 }

@@ -2,7 +2,7 @@
 //  huge.cpp
 //
 //
-//  Created by 张力翔 on 2018/9/4.
+//  Created by Lixiang Zhang on 2018/9/4.
 //
 #include <stdio.h>
 #include <string.h>
@@ -260,7 +260,7 @@ float dist2cls(int *cls1, int *cls2, int len, int id1, int id2)
 float dist2cls_normalized(int *cls1, int *cls2, int len, int id1, int id2)
 {
     int i;
-    float v1,v2,v3,r1,r2;
+    float v1,v2,v3,r1;
 
     v1=v2=v3=0.0;
     for (i=0; i<len;i++){
@@ -272,8 +272,8 @@ float dist2cls_normalized(int *cls1, int *cls2, int len, int id1, int id2)
             v3+=1.0; //in both clusters
     }
 
-    if (v1+v3==0.0) r1=1.0; else r1=v1/(v1+v3);//ratio of subtracted set
-    if (v2+v3==0.0) r2=1.0; else r2=v2/(v2+v3);
+    //if (v1+v3==0.0) r1=1.0; else r1=v1/(v1+v3);//ratio of subtracted set
+    //if (v2+v3==0.0) r2=1.0; else r2=v2/(v2+v3);
 
     //return((r1+r2)/2.0);
     //Revised on Nov 7, 2017 to Jacaad index
@@ -1019,7 +1019,7 @@ int ClusterInclude(CLink *clist, int ns, unsigned char *keepcls, int id, unsigne
 void ConfidenceSet(CLink *clist, int ns, int nids, int *id2num, int *num2id,
                    unsigned char *pts, unsigned char *keepcls, float alpha)
 {
-    int i,j,m;
+    int i,j;
     int nexclude, ncv;
     unsigned char *touched, *buf;
     int *p, mv;
@@ -1037,13 +1037,12 @@ void ConfidenceSet(CLink *clist, int ns, int nids, int *id2num, int *num2id,
     while (ncv>ns-nexclude) {
         //For each existing point and existing cluster, compute p[]
         for (i=0;i<nids;i++) p[i]=0;
-        m=-1; mv=ns+1;
+        mv=ns+1;
         for (i=0;i<nids;i++) {
             if (pts[i]==0) continue; //already excluded
             p[i]=ClusterInclude(clist, ns, keepcls, num2id[i], buf);
             if (p[i]<mv) {
                 mv=p[i];
-                m=i;
                 for (j=0;j<ns;j++) touched[j]=buf[j];
             }
         }

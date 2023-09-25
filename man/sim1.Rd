@@ -4,7 +4,9 @@
 \name{sim1}
 \alias{sim1}
 \title{Simulated toy data}
-\format{A matrix with 5000 rows and 2 variables}
+\format{
+A matrix with 5000 rows and 2 variables
+}
 \usage{
 sim1
 }

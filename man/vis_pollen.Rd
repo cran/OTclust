@@ -4,11 +4,13 @@
 \name{vis_pollen}
 \alias{vis_pollen}
 \title{Single cell gene visualization data from Pollen's paper}
-\format{A list containing two components
+\format{
+A list containing two components
 \describe{
   \item{vis}{visualization coordinates of cells}
   \item{ref}{true labels of cells}
-}}
+}
+}
 \source{
 \url{https://www.nature.com/articles/nbt.2967}
 }

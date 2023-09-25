@@ -1,4 +1,4 @@
-#' Mean partition by optimal transport anlignment.
+#' Mean partition by optimal transport alignment.
 #'
 #' This function calculates the mean partition of an ensemble of partitions by optimal transport alignment and uncertainty/stability measures.
 #' @param ensemble -- a matrix of ensemble partition. Use \code{ensemble()} to generate an ensemble of perturbed partitions.

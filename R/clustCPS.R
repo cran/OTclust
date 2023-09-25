@@ -8,15 +8,15 @@ addnoise <- function(x,nrow,sd){
 #' Covering Point Set Analysis for validating clustering results. It conducts alignment among different results and then calculates the covering point set. The return contains several statistics which can be directly used as input for mplot or cplot. If you want to design your own workflow, you can use function CPS instead.
 #' @param data -- data given in a matrix format, where rows are samples, and columns are variables.
 #' @param k -- number of clusters.
-#' @param l -- logical. If True, log-transforamtion will be carried out on the data.
+#' @param l -- logical. If True, log-transformation will be carried out on the data.
 #' @param pre -- logical. If True, pre-dimension reduction will be carried out based on the variance.
 #' @param noi -- adding noise before or after the dimension reduction, choosing between "before" and "after", default "after".
 #' @param cmethod -- clustering method, choosing from "kmeans" and "mclust", default "kmeans".
 #' @param dimr -- dimension reduction technique, choose from "none" and "PCA", default "PCA".
 #' @param vis -- the visualization method to be used, such as "tsne" and "umap", default "tsne". Also, you can provide your own visualization coordinates in a numeric matrix of two columns.
-#' @param ref -- optional, clustering reuslt in a vector format and the first cluster is labeled as 1. If provided it will be used as the reference, if not we will generate one.
-#' @param nPCA -- number of principal conponents to use, default 50.
-#' @param nEXP -- number of perturbed clustering reuslts for CPS Analysis, default 100.
+#' @param ref -- optional, clustering result in a vector format and the first cluster is labeled as 1. If provided it will be used as the reference, if not we will generate one.
+#' @param nPCA -- number of principal components to use, default 50.
+#' @param nEXP -- number of perturbed clustering results for CPS Analysis, default 100.
 #' @return a list used for mplot or cplot, in which tight_all is the overall tightness, member is the matrix used for the membership plot, set is the matrix for the covering point set plot, tight is the vector of cluster-wise tightness, vis is the visualization coordinates, ref is the reference labels and topo is the topological relationship between clusters for point-wise uncertainty assessment.
 #' @examples
 #' # CPS Analysis on validation of clustering result
@@ -103,7 +103,7 @@ clustCPS <- function(data, k, l = TRUE, pre = TRUE, noi="after", cmethod="kmeans
   ## CPS Analysis
   save=rbind(matrix(as.integer(ref)-1,ncol=1),matrix(as.integer(re)-1,ncol=1))
   cps=ACPS(save,nEXP+1,1)
-  pen=1-cps$match[,4]/apply(cps$match,1,sum)
+  pen=cps$match[,1]/apply(cps$match,1,sum)
   tit=cps$statistics[,4]*pen
   tit=matrix(tit,nrow=1)
   rownames(tit)=c("Tightness of each cluster")

@@ -4,7 +4,9 @@
 \name{YAN}
 \alias{YAN}
 \title{Single cell gene data from Yan's paper}
-\format{A matrix with 124 rows and 3840 variables}
+\format{
+A matrix with 124 rows and 3840 variables
+}
 \source{
 \url{https://www.nature.com/articles/nsmb.2660}
 }

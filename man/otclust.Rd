@@ -2,7 +2,7 @@
 % Please edit documentation in R/otclust.R
 \name{otclust}
 \alias{otclust}
-\title{Mean partition by optimal transport anlignment.}
+\title{Mean partition by optimal transport alignment.}
 \usage{
 otclust(ensemble, idx = NULL)
 }

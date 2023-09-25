@@ -2,7 +2,7 @@
 % Please edit documentation in R/otplot.R
 \name{otplot}
 \alias{otplot}
-\title{Visulize a partition on 2 dimensional space}
+\title{Visualize a partition on 2 dimensional space}
 \usage{
 otplot(
   data,
@@ -17,7 +17,7 @@ otplot(
 )
 }
 \arguments{
-\item{data}{-- cordinates matrix of data.}
+\item{data}{-- coordinates matrix of data.}
 
 \item{labels}{-- cluster labels in a vector, the first cluster is labeled as 1.}
 

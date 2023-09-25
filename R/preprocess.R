@@ -2,7 +2,7 @@
 #'
 #' Preprocessing for dimension reduction based on variance, it will delete the variable whose variance is smaller than 0.5*mean variance of all variables.
 #' @param data -- data that needs to be processed
-#' @param l -- logical. If True, log-transforamtion will be carried out on the data.
+#' @param l -- logical. If True, log-transformation will be carried out on the data.
 #' @param pre -- logical. If True, pre-dimension reduction will be carried out based on the variance.
 #' @return the processed data.
 #' @examples

@@ -12,7 +12,7 @@ pplot(result, method = 0)
 \item{method}{-- method for calculating point-wise uncertainty. Using posterior probability matrix is \code{0} and using topological information between clusters is \code{1}. Default is using posterior probability matrix.}
 }
 \value{
-a list, in which P is the posterior probability matrix that each sample belows to the reference clusters, point_stab is the point-wise stability for each sample and v is the visualization of the point-wise stability.
+a list, in which P is the posterior probability matrix that each sample below to the reference clusters, point_stab is the point-wise stability for each sample and v is the visualization of the point-wise stability.
 }
 \description{
 Output both the numerical and graphical point-wise uncertainty assessment for each individual points. The return of clustCPS, visCPS or CPS can be directly used as the input.
