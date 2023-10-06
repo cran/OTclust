@@ -1,6 +1,6 @@
 #' Membership Heat Map
 #'
-#' Output the membership meat map of the required cluster. The return of clustCPS, visCPS or CPS can be directly used as the input.
+#' Output the membership heat map of the required cluster. The return of clustCPS, visCPS or CPS can be directly used as the input.
 #' @param result -- the return from function clustCPS, visCPS or CPS.
 #' @param k -- which cluster that you want to see the membership heat map.
 #' @return membership heat map of the required cluster.

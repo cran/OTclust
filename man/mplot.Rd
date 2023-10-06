@@ -15,7 +15,7 @@ mplot(result, k)
 membership heat map of the required cluster.
 }
 \description{
-Output the membership meat map of the required cluster. The return of clustCPS, visCPS or CPS can be directly used as the input.
+Output the membership heat map of the required cluster. The return of clustCPS, visCPS or CPS can be directly used as the input.
 }
 \examples{
 # CPS analysis on selection of visualization methods

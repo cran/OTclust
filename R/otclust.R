@@ -31,10 +31,9 @@ otclust <- function(ensemble, idx=NULL){
   n = nrow(ensemble)
   nbs = ncol(ensemble)
   
-  
+  avgdist = rep(NA,nbs)
+  avgdist = ACPS(c(ensemble)-1,nbs,0)
   if(is.null(idx)){
-    avgdist = rep(NA,nbs)
-    avgdist = ACPS(c(ensemble)-1,nbs,0)
     idx = which.min(avgdist$avedist)
   }
     
